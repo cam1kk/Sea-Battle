@@ -10,9 +10,10 @@ bool canPlace(char board[][10], int row, int col, int shipsize, char direc) {
 		return false;
 	}
 
-	for (int i = max(0, row - 1); i <= (direc == 'V' ? row + shipsize : min(9, row + 1)); i++)
+
+	for (int i = row; i <= row + shipsize; i++)
 	{
-		for (int j = max(0, col - 1); j <= (direc == 'H' ? col + shipsize : min(9, col + 1)); j++)
+		for (int j = col; j <= col + shipsize; j++)
 		{
 			if (board[i][j] != '~') {
 				return false;
