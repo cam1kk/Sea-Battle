@@ -3,6 +3,7 @@
 #include "Logic.h"
 #include "Helper.h"
 using namespace std;
+
 void fillBoard(char board[][10]) {
 	for (int i = 0; i < 10; i++)
 	{
@@ -12,22 +13,31 @@ void fillBoard(char board[][10]) {
 		}
 	}
 }
-void showBoard(char board[][10]) {
-	cout << " A B C D E F G H I J" << endl;
+void showBoard(char board[][10], char empty_board[][10]) {
+	system("cls");
+	cout << " A B C D E F G H I J        A B C D E F G H I J" << endl;
 	for (int i = 0; i < 10; i++)
 	{
-		cout << " ";
+		cout << ' ';
 		for (int j = 0; j < 10; j++)
 		{
 			cout << board[i][j] << " ";
 		}
-		cout << i + 1 << "\n";
+		cout << i + 1 << "     ";
+		if (i < 9) {
+			cout << ' ';
+		}
+		for (int j = 0; j < 10; j++)
+		{
+			cout << empty_board[i][j] << " ";
+		}
+		cout << i + 1 << endl;
 	}
 }
 void randomPlace(char board[][10]) {
 	srand(time(NULL));
-	int row{}, col{};
-	char direc{};
+	int row, col;
+	char direc;
 	char directs[]{ 'H','V' };
 	// 1 - x4
 	do
@@ -71,89 +81,87 @@ void randomPlace(char board[][10]) {
 		placeShip(board, row, col, 1, direc);
 	}
 }
-void manualPlace(char board[][10]) {
-	int row{};
-	char col{};
-	char direc{};
-	do
-	{
-		showBoard(board);
-		if (!canPlace(board, row - 1, col - 1, 4, direc))
-			cout << "\nYou can't put a ship here , try again\n" << endl;
+void manualPlace(char board[][10], char empty_board[][10]) {
+	int row, col;
+	char col_ch;
+	char direc;
+	// 1 - x4
+	while (true) {
+		showBoard(board, empty_board);
 		cout << "\n1 - 4xship\nDirection(H - Horizontal | V - Vertical)\nif you write V your ship will be directed right\nif you write H your ship will be directed down\nRow(1 - 10)\nCol(A - J)" << endl;
 		cout << "\nDirection: ";
 		cin >> direc;
 		cout << "Row: ";
 		cin >> row;
 		cout << "Col: ";
-		cin >> col;
-		col = letternumber(col);
-		system("cls");
-	} while (!canPlace(board, row - 1, col - 1, 4, direc));
+		cin >> col_ch;
+		col = letternumber(col_ch);
+		if (canPlace(board, row - 1, col - 1, 4, direc)) {
+			break;
+		}
+		cout << "\nYou can't put a ship here, try again\n" << endl;
+		system("pause");
+	}
 	placeShip(board, row - 1, col - 1, 4, direc);
+	// 2 - x3
 	for (int i = 0; i < 2; i++)
 	{
-		int row{};
-		char col{};
-		char direc{};
-		do
-		{
-			showBoard(board);
-			if (!canPlace(board, row - 1, col - 1, 3, direc))
-				cout << "\nYou can't put a ship here , try again\n" << endl;
+		while (true) {
+			showBoard(board, empty_board);
 			cout << "\n2 - 3xship\nDirection(H - Horizontal | V - Vertical)\nif you write V your ship will be directed right\nif you write H your ship will be directed down\nRow(1 - 10)\nCol(A - J)" << endl;
 			cout << "\nDirection: ";
 			cin >> direc;
 			cout << "Row: ";
 			cin >> row;
 			cout << "Col: ";
-			cin >> col;
-			col = letternumber(col);
-			system("cls");
-		} while (!canPlace(board, row - 1, col - 1, 3, direc));
+			cin >> col_ch;
+			col = letternumber(col_ch);
+			if (canPlace(board, row - 1, col - 1, 3, direc)) {
+				break;
+			}
+			cout << "\nYou can't put a ship here , try again\n" << endl;
+			system("pause");
+		}
 		placeShip(board, row - 1, col - 1, 3, direc);
 	}
+	// 3 - x2
 	for (int i = 0; i < 3; i++)
 	{
-		int row{};
-		char col{};
-		char direc{};
-		do
-		{
-			showBoard(board);
-			if (!canPlace(board, row - 1, col - 1, 2, direc))
-				cout << "\nYou can't put a ship here , try again\n" << endl;
+		while (true) {
+			showBoard(board, board);
 			cout << "\n3 - 2xship\nDirection(H - Horizontal | V - Vertical)\nif you write V your ship will be directed right\nif you write H your ship will be directed down\nRow(1 - 10)\nCol(A - J)" << endl;
 			cout << "\nDirection: ";
 			cin >> direc;
 			cout << "Row: ";
 			cin >> row;
 			cout << "Col: ";
-			cin >> col;
-			col = letternumber(col);
-			system("cls");
-		} while (!canPlace(board, row - 1, col - 1, 2, direc));
+			cin >> col_ch;
+			col = letternumber(col_ch);
+			if (canPlace(board, row - 1, col - 1, 3, direc)) {
+				break;
+			}
+			cout << "\nYou can't put a ship here , try again\n" << endl;
+			system("pause");
+		}
 		placeShip(board, row - 1, col - 1, 2, direc);
 	}
+	// 4 - x1
 	for (int i = 0; i < 4; i++)
 	{
-		int row{};
-		char col{};
-		char direc{};
-		direc = 'H';
-		do
-		{
-			showBoard(board);
-			if (!canPlace(board, row - 1, col - 1, 1, direc))
-				cout << "\nYou can't put a ship here , try again\n" << endl;
+		while (true) {
+			showBoard(board, board);
 			cout << "\n1 - 4xship\nRow(1 - 10)\nCol(A - J)" << endl;
 			cout << "Row: ";
 			cin >> row;
 			cout << "Col: ";
 			cin >> col;
 			col = letternumber(col);
-			system("cls");
-		} while (!canPlace(board, row - 1, col - 1, 1, direc));
+			if (canPlace(board, row - 1, col - 1, 1, direc)) {
+				break;
+			}
+			cout << "\nYou can't put a ship here , try again\n" << endl;
+			system("pause");
+		}
 		placeShip(board, row - 1, col - 1, 1, direc);
 	}
 }

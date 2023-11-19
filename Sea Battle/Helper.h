@@ -1,6 +1,15 @@
 #pragma once
 #include <iostream>
 using namespace std;
+
+void winorlose(int player, int bot) {
+	if (player > 0) {
+		cout << "Player wins!" << endl;
+	}
+	else if (bot > 0) {
+		cout << "Bot wins!" << endl;
+	}
+}
 int letternumber(char letter) {
 	if (letter == 'A') return 1;
 	else if (letter == 'B') return 2;
@@ -13,6 +22,7 @@ int letternumber(char letter) {
 	else if (letter == 'I') return 9;
 	else if (letter == 'J') return 10;
 }
+
 char numberletter(int number) {
 	if (number == 1) return 'A';
 	else if (number == 2) return 'B';
